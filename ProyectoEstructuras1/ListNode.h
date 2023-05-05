@@ -6,8 +6,8 @@ class ListNode: public Node {
 private:
     //int capacity; (herencia)
     //int size; (herencia)
-    int* arr;
-    ListNode* next;
+    int* arr; //arreglo de enteros
+    ListNode* next; //puntero al siguiente ListNode
 public:
     ListNode(int);
     ~ListNode();

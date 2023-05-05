@@ -4,9 +4,17 @@
 
 class SumNode: public Node {
 private:
-    Node* left;
+    //int capacity; (herencia)
+    //int size; (herencia)
+    Node* izq;
+    Node* der;
 public:
-    
+    SumNode();
+    void insertDer(Node*);
+    void insertIzq(Node*);
+    void actualizar();
+    //int getCapacity(); (herencia)
+    //int getSize(); (herencia)
 };
 
 #endif
