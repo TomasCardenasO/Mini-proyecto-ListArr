@@ -12,6 +12,7 @@ private:
     SumNode* raiz;
     int calcularNiveles(int);
     SumNode* crearArbol(int);
+    void destruirArbol(int, SumNode*);
     void unirArbol(int, SumNode*, ListNode*);
     void actualizarArbol(int, SumNode*);
 public:

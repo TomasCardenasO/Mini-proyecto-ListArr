@@ -14,7 +14,13 @@ ListArr::ListArr(int arrCapacity) {
     actualizarArbol(n, raiz);
 }
 ListArr::~ListArr() {
-    
+    destruirArbol(calcularNiveles(listSize), raiz);
+    ListNode* copyhead = head;
+    for(int i = 0; i < listSize; i++) {
+        copyhead = copyhead->next;
+        head->~ListNode();
+        head = copyhead;
+    }
 }
 /*##################################################################################################
                                             METODOS PRIVADOS
@@ -40,6 +46,17 @@ SumNode* ListArr::crearArbol(int niveles) {
         raiz->izq = crearArbol(niveles - 1);
         raiz->der = crearArbol(niveles - 1);
         return raiz;
+    }
+}
+/*Para destruir un arbol de n niveles destruimos los subarboles de n-1 niveles (de la izquierda y derecha)
+y luego destruimos la raiz, cuando se llega al nivel mas bajo simplemente destruimos el SumNode correspondiente*/
+void ListArr::destruirArbol(int niveles, SumNode* raiz) {
+    if(niveles == 1) {
+        delete raiz;
+    } else {
+        destruirArbol(niveles - 1, raiz->izq);
+        destruirArbol(niveles - 1, raiz->der);
+        delete raiz;
     }
 }
 /*Para unir un arbol a una lista necesitamos los niveles del arbol (n), la raiz del arbol y el puntero al primer
