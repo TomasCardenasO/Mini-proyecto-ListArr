@@ -27,3 +27,24 @@ SumNode* ListArr::crearArbol(int niveles) {
         return padre;
     }
 }
+void ListArr::unirArbol(int niveles, SumNode* raiz, ListNode* head) {
+    if(niveles == 1) {
+        raiz->listaIzq = head;
+        if(head == nullptr) {
+            raiz->listaDer = nullptr;
+        } else {
+            raiz->listaDer = head->next;
+        }
+    } else {
+        unirArbol(niveles - 1, raiz->izq, head);
+        for(int i = 0; i < pow(2, niveles) / 2; i++) {
+            if(head == nullptr or head->next == nullptr) {
+                head = nullptr;
+                break;
+            } else {
+                head = head->next;
+            }
+        }
+        unirArbol(niveles - 1, raiz->der, head);
+    }
+}
