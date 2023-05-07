@@ -1,18 +1,20 @@
-#include "Node.h"
 #ifndef SumNode_H
 #define SumNode_H
 
-class SumNode: public Node {
+class SumNode {
 private:
-    //int capacity; (herencia)
-    //int size; (herencia)
+    int capacity;
+    int size;
 public:
-    Node* izq;
-    Node* der;
+    SumNode* izq;
+    SumNode* der;
+    ListNode* listaIzq;
+    ListNode* listaDer;
+
     SumNode();
     void actualizar();
-    //int getCapacity(); (herencia)
-    //int getSize(); (herencia)
+    int getCapacity();
+    int getSize();
 };
 
 #endif

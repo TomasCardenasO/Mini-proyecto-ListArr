@@ -8,6 +8,8 @@ SumNode::SumNode() {
     this->size = 0;
     this->izq = nullptr;
     this->der = nullptr;
+    this->listaIzq = nullptr;
+    this->listaDer = nullptr;
 }
 void SumNode::actualizar() {
     if(izq == nullptr and der == nullptr) {
@@ -23,4 +25,10 @@ void SumNode::actualizar() {
         this->capacity = izq->getCapacity() + der->getCapacity();
         this->size = izq->getSize() + der->getSize();
     }
+}
+int SumNode::getCapacity() {
+    return capacity;
+}
+int SumNode::getSize() {
+    return size;
 }

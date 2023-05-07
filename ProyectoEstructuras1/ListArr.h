@@ -11,7 +11,8 @@ private:
     int listSize;
     Node* raiz;
     int calcularNiveles(int);
-    Node* crearArbol(int, ListNode*);
+    SumNode* crearArbol(int);
+    void unirArbol(SumNode*, ListNode*);
 public:
     ListArr(int);
     ~ListArr();

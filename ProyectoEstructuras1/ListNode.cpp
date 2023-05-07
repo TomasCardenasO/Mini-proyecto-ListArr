@@ -12,3 +12,9 @@ ListNode::ListNode(int capacity) {
 ListNode::~ListNode() {
     delete[] arr;
 }
+int ListNode::getCapacity() {
+    return capacity;
+}
+int ListNode::getSize() {
+    return size;
+}
