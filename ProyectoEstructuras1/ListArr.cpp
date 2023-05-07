@@ -13,6 +13,16 @@ ListArr::ListArr(int arrCapacity) {
     unirArbol(n, raiz, head);
     actualizarArbol(n, raiz);
 }
+ListArr::~ListArr() {
+    
+}
+/*##################################################################################################
+                                            METODOS PRIVADOS
+###################################################################################################*/
+/*Para calcular los niveles del arbol (n) segun la cantidad de nodos de la lista (listSize) 
+hay que tener en cuenta que el nivel "n" puede almacenar 2^n nodos (ya que es un arbol binario). 
+Por lo tanto, cuando el numero de nodos sea menor o igual a 2^n tendremos un arbol lo 
+necesariamente grande para contener la lista*/
 int ListArr::calcularNiveles(int listSize) {
     int n = 1;
     while(listSize > pow(2, n)) {
@@ -20,16 +30,23 @@ int ListArr::calcularNiveles(int listSize) {
     }
     return n;
 }
+/*Para crear un arbol de n niveles basicamente en cada hijo (izquierdo y derecho) asignamos un arbol
+de nivel n-1*/
 SumNode* ListArr::crearArbol(int niveles) {
     if(niveles == 0) {
         return nullptr;
     } else {
-        SumNode* padre = new SumNode;
-        padre->izq = crearArbol(niveles - 1);
-        padre->der = crearArbol(niveles - 1);
-        return padre;
+        SumNode* raiz = new SumNode;
+        raiz->izq = crearArbol(niveles - 1);
+        raiz->der = crearArbol(niveles - 1);
+        return raiz;
     }
 }
+/*Para unir un arbol a una lista necesitamos los niveles del arbol (n), la raiz del arbol y el puntero al primer
+elemento de la lista. En el caso general (el arbol y la lista entera) vamos a subdividir el problema, tomaremos
+el subarbol izquierdo y derecho, los cuales tienen nivel n-1, y dividiremos la lista por la mitad 
+(con el ciclo for), esto se subdivide hasta llegar al nivel mas bajo del arbol, donde uniremos el
+SumNode con los nodos de la lista*/
 void ListArr::unirArbol(int niveles, SumNode* raiz, ListNode* head) {
     if(niveles == 1) {
         raiz->listaIzq = head;
@@ -51,6 +68,9 @@ void ListArr::unirArbol(int niveles, SumNode* raiz, ListNode* head) {
         unirArbol(niveles - 1, raiz->der, head);
     }
 }
+/*Para actualizar el arbol usamos la misma idea que en los metodos anteriores, primero actualizamos el
+subarbol izquierdo y derecho y luego el padre, cuando lleguemos al nivel mas bajo simplente actualizamos
+los SumNode (el metodo actualizar de los SumNode funciona sin importar a que tipo de nodo estemos apuntando)*/
 void ListArr::actualizarArbol(int niveles, SumNode* raiz) {
     if(niveles == 1) {
         raiz->actualizar();
@@ -59,4 +79,31 @@ void ListArr::actualizarArbol(int niveles, SumNode* raiz) {
         actualizarArbol(niveles - 1, raiz->der);
         raiz->actualizar();
     }
+}
+/*##################################################################################################
+                                            METODOS PUBLIC
+###################################################################################################*/
+int ListArr::size() {
+
+}
+void ListArr::insert(int valor, int indice) {
+
+}
+void ListArr::insert_left(int valor) {
+
+}
+void ListArr::insert_right(int valor) {
+
+}
+void ListArr::print() {
+
+}
+bool ListArr::find(int valor) {
+
+}
+int ListArr::delete_left() {
+
+}
+int ListArr::delete_right() {
+
 }
