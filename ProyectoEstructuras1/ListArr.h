@@ -9,10 +9,11 @@ private:
     int arrCapacity; //Capacidad de los arreglos internos
     ListNode* head;
     int listSize;
-    Node* raiz;
+    SumNode* raiz;
     int calcularNiveles(int);
     SumNode* crearArbol(int);
     void unirArbol(int, SumNode*, ListNode*);
+    void actualizarArbol(int, SumNode*);
 public:
     ListArr(int);
     ~ListArr();

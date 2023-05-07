@@ -8,7 +8,10 @@ ListArr::ListArr(int arrCapacity) {
     this->arrCapacity = arrCapacity;
     this->head = new ListNode(arrCapacity);
     this->listSize = 1;
-    this->raiz = crearArbol(calcularNiveles(listSize));
+    int n = calcularNiveles(listSize); //cuantos niveles tendrá el arbol
+    this->raiz = crearArbol(n);
+    unirArbol(n, raiz, head);
+    actualizarArbol(n, raiz);
 }
 int ListArr::calcularNiveles(int listSize) {
     int n = 1;
@@ -46,5 +49,14 @@ void ListArr::unirArbol(int niveles, SumNode* raiz, ListNode* head) {
             }
         }
         unirArbol(niveles - 1, raiz->der, head);
+    }
+}
+void ListArr::actualizarArbol(int niveles, SumNode* raiz) {
+    if(niveles == 1) {
+        raiz->actualizar();
+    } else {
+        actualizarArbol(niveles - 1, raiz->izq);
+        actualizarArbol(niveles - 1, raiz->der);
+        raiz->actualizar();
     }
 }
