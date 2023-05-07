@@ -7,8 +7,8 @@ private:
     //int capacity; (herencia)
     //int size; (herencia)
     int* arr; //arreglo de enteros
-    ListNode* next; //puntero al siguiente ListNode
 public:
+    ListNode* next; //puntero al siguiente ListNode
     ListNode(int);
     ~ListNode();
     //int getCapacity(); (herencia)

@@ -8,9 +8,10 @@ class ListArr: public ListArrADT {
 private:
     int arrCapacity; //Capacidad de los arreglos internos
     ListNode* head;
-    SumNode* raiz;
-    void actualizarArbol();
-    void unirArbol();
+    int listSize;
+    Node* raiz;
+    int calcularNiveles(int);
+    Node* crearArbol(int, ListNode*);
 public:
     ListArr(int);
     ~ListArr();

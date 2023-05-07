@@ -9,12 +9,6 @@ SumNode::SumNode() {
     this->izq = nullptr;
     this->der = nullptr;
 }
-void SumNode::insertDer(Node* der) {
-    this->der = der;
-}
-void SumNode::insertIzq(Node* izq) {
-    this->izq = izq;
-}
 void SumNode::actualizar() {
     if(izq == nullptr and der == nullptr) {
         this->capacity = 0;
