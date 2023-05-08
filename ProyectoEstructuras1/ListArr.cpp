@@ -87,7 +87,7 @@ void ListArr::unirArbol(int niveles, SumNode* raiz, ListNode* head) {
 }
 /*Para actualizar el arbol usamos la misma idea que en los metodos anteriores, primero actualizamos el
 subarbol izquierdo y derecho y luego el padre, cuando lleguemos al nivel mas bajo simplente actualizamos
-los SumNode (el metodo actualizar de los SumNode funciona sin importar a que tipo de nodo estemos apuntando)*/
+los SumNode (el metodo actualizar de los SumNode funciona sin importar a que tipo de nodo estemos apuntando)www*/
 void ListArr::actualizarArbol(int niveles, SumNode* raiz) {
     if(niveles == 1) {
         raiz->actualizar();
@@ -107,9 +107,65 @@ void ListArr::insert(int valor, int indice) {
 
 }
 void ListArr::insert_left(int valor) {
+    int copia[arrCapacity] = head->arr //copia de nuestro arreglo 
+
+
+        if (head->getSize() < head->getCapacity()) {   //si hay espacio, entonces 
+            for (int i = 0; i <= head->getSize(); i++) {
+                if (i == 0) {
+                    head->arr[0] = valor;  //ponemos el valor en la posición 0
+                }
+                else {
+                    head->arr[i] = copia[i - 1]; //se copian los valores de copia en arr
+                }
+            }
+        }
+        else {
+            for (int i = 0; i <= head->getSize(); i++) { //si el espacio está lleno (tal vez puedo específicar más)
+                if (i == 0) {
+                    head->arr[0] = valor;
+                }
+                else {
+                    head->arr[i] = copia[i - 1];
+                }
+            }//hacemos la misma copia que antes, pero tenemos que crear un nuevo nodo
+            ListNode* nuevo = new ListNode(arrCapacity);
+            nuevo->arr[0] = copia[arrCapacity - 1];  //al nuevo nodo le damos el último valor de la copia
+            nuevo->next = head->next; //conecto nuevo con el next anterior
+            head->next = nuevo; //se conecta nuestor head con nuevo y nuevo con el next de antes
+            listSize++;
+            destruirArbol(calcularNiveles(listSize), raiz);
+            crearArbol(calcularNiveles(listSize));
+            unirArbol(calcularNiveles(listSize), raiz, head);
+            actualizarArbol(calcularNiveles(listSize), raiz);
+
+        }
+
+
+
 
 }
 void ListArr::insert_right(int valor) {
+    ListNode* aux = head; //creamos un arreglo que nos permita llegar hasta el último listndode
+    for (int i = 0; i < listSize; i++) {
+        aux = aux->next; //no es necesario el if, pues solo recorre hasta listsize
+
+    }
+    if (aux->getSize() == aux->getCapacity()) { //si la capacidad está llena
+        //creamos nuevo nodo
+        ListNode* nuevo = new ListNode(arrCapacity);
+        nuevo->arr[0] = valor; //al nuevo nodo le asignamos el valor dado
+        aux->next = nuevo; //al nodo auxiliar, el cual es el ultimo, le asignamos como next al nuevo nodo
+        listSize++;
+        destruirArbol(calcularNiveles(listSize), raiz);
+        crearArbol(calcularNiveles(listSize));
+        unirArbol(calcularNiveles(listSize), raiz, head);
+        actualizarArbol(calcularNiveles(listSize), raiz);
+
+    }
+    else() {
+        aux->arr[aux->getSize()] = valor //si la capacidad no está llena
+    }
 
 }
 void ListArr::print() {
