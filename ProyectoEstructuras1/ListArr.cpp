@@ -123,11 +123,20 @@ void ListArr::print() {
     }
 }
 bool ListArr::find(int valor) {
-
+    ListNode* copyhead = head;
+    for(int i = 0; i < listSize; i++) {
+        for(int j = 0; j < copyhead->getSize(); j++) {
+            if(copyhead->arr[j] == valor) {
+                return true;
+            }
+        }
+        copyhead = copyhead->next;
+    }
+    return false;
 }
 int ListArr::delete_left() {
-    
+    return 0;
 }
 int ListArr::delete_right() {
-
+    return 0;
 }
