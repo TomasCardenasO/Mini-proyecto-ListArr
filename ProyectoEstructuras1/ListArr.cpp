@@ -101,8 +101,9 @@ void ListArr::actualizarArbol(int niveles, SumNode* raiz) {
                                             METODOS PUBLIC
 ###################################################################################################*/
 int ListArr::size() {
-    return 0;
+    return raiz->getSize();
 }
+
 void ListArr::insert(int valor, int indice) {
 
 }
@@ -113,7 +114,13 @@ void ListArr::insert_right(int valor) {
 
 }
 void ListArr::print() {
-
+    ListNode* nodo = head; 
+    for (int i = 0; i < listSize; i++){
+        for (int j = 0; j < nodo->getSize(); j++){
+            cout << nodo->arr[j];
+        }
+    nodo = nodo->next;
+    }
 }
 bool ListArr::find(int valor) {
     ListNode* copyhead = head;

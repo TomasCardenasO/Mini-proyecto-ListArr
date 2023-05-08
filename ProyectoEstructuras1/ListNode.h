@@ -5,10 +5,9 @@ class ListNode {
 private:
     int capacity;
     int size;
-    int* arr; //arreglo de enteros
 public:
     ListNode* next; //puntero al siguiente ListNode
-
+    int* arr; //arreglo de enteros
     ListNode(int);
     ~ListNode();
     int getCapacity();
