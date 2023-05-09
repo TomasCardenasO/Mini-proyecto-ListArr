@@ -135,8 +135,58 @@ bool ListArr::find(int valor) {
     return false;
 }
 int ListArr::delete_left() {
-    return 0;
+    SumNode* aux = raiz;
+    ListNode* listaux;
+    if(raiz->getSize() == 0) {
+        cout << "No podemos eliminar elementos ya que ListArr esta vacio" << endl;
+        return -1;
+    } else {
+        for(int i = 0; i < calcularNiveles(listSize) - 1; i++) {
+            if(aux->izq->getSize() != 0) {
+                aux = aux->izq;
+            } else {
+                aux = aux->der;
+            }
+        } //en este punto aux va a ser el SumNode que contiene el ListNode con el primer elemento
+        if(aux->listaIzq->getSize() != 0) {
+            listaux = aux->listaIzq;
+        } else {
+            listaux = aux->listaDer;
+        }//en este punto listaux es el ListNode que contiene al primer elemento
+        if(listaux->getSize() == 1) {
+            listaux->size -= 1;
+            return listaux->arr[0];
+        } else {
+            int salida = listaux->arr[0];
+            for(int i = 1; i < listaux->getSize(); i++) {
+                listaux->arr[i - 1] = listaux->arr[i];
+            }
+            listaux->size -= 1;
+            return salida;
+        }
+
+    }
 }
 int ListArr::delete_right() {
-    return 0;
+    SumNode* aux = raiz;
+    ListNode* listaux;
+    if(raiz->getSize() == 0) {
+        cout << "No podemos eliminar elementos ya que ListArr esta vacio" << endl;
+        return -1;
+    } else {
+        for(int i = 0; i < calcularNiveles(listSize) - 1; i++) {
+            if(aux->der->getSize() != 0) {
+                aux = aux->der;
+            } else {
+                aux = aux->izq;
+            }
+        } //en este punto aux va a ser el SumNode que contiene el ListNode con el ultimo elemento
+        if(aux->listaDer->getSize() != 0) {
+            listaux = aux->listaDer;
+        } else {
+            listaux = aux->listaIzq;
+        }//en este punto listaux es el ListNode que contiene al ultimo elemento
+        listaux->size -= 1;
+        return listaux->arr[listaux->getSize()];
+    }
 }
