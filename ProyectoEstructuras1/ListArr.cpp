@@ -275,6 +275,7 @@ int ListArr::delete_left() {
         }//en este punto listaux es el ListNode que contiene al primer elemento
         if(listaux->getSize() == 1) {
             listaux->size -= 1;
+            actualizarArbol(calcularNiveles(listSize), raiz);
             return listaux->arr[0];
         } else {
             int salida = listaux->arr[0];
@@ -282,6 +283,7 @@ int ListArr::delete_left() {
                 listaux->arr[i - 1] = listaux->arr[i];
             }
             listaux->size -= 1;
+            actualizarArbol(calcularNiveles(listSize), raiz);
             return salida;
         }
 
