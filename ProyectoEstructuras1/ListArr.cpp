@@ -104,114 +104,78 @@ int ListArr::size() {
 
 }
 void ListArr::insert(int valor, int indice) {
-    /*
     //tenemos que tomar en cuenta el indice. Pues necesitamos buscar el listnode adecuado.
-    SumNode* auxiliar = raiz;                    //recordar
-    for (int i = 0; i < calcularNiveles(listSize)) {
-        if (i == 0) { 
-            if (indice > aux->izq->getSize()) {
-                auxiliar = auxiliar->izq;
-            }
-            else {
-                auxiliar = auxiliar->der;
-            }
-        }
-        else {
-            if (indice > aux->izq->getSize()) {
-                auxiliar = auxiliar->izq;
-            }
-            else {
-                auxiliar = aux->der;
+    SumNode* auxiliar = raiz;
+    ListNode* listaux;
+    if(indice > raiz->getSize()) {
+        cout << "El indice requerido no es valido, pruebe con un indice menor." << endl;
+    } else {
+        for (int i = 0; i < calcularNiveles(listSize) - 1; i++) {
+            if(indice > auxiliar->izq->getSize()) {
                 indice = indice - auxiliar->izq->getSize();
-
+                auxiliar = auxiliar->der;
+            } else {
+                auxiliar = auxiliar->izq;
             }
-        }
-    }
-    //en este punto ya llegamos al sumnode deseado
-    if (indice > auxiliar->listaIzq->getSize()) {           //pueden mejorar las condiciones, pero el tema es que esta condición es para verificar si trabajamos con listader o listaizq
-        int copia[arrCapacity] = auxiliar->listaIzq->arr;//copia de nuestro arreglo  
-        if (indice != auxiliar->listaIzq->getSize()) {          //y conociendo eso, tenemos 2 posibles casos, que el arreglo esté lleno o no
-            for (int i = 0; i <= auxiliar->listaIzq->getSize(); i++) { //en este caso no está lleno, asi que es suficiente con copiar los datos
-                if (i < indice) {
-                    auxiliar->listaIzq->arr[i] = copia[i];
-
-                }                                           //hasta encontrarse con el indice, copiarlo
-                else if (i == indice) {
-                    auxiliar->listaIzq->arr[i] = valor;
-                }
-                else {
-                    auxiliar->listaIzq->arr[i] = copia[i - 1];                //y luego seguir copiando los datos de antes.
-                }
-            }
-
-        }                                                    
-        else {
-            for (int i = 0; i <= auxiliar->listaDer->getSize(); i++) {            // el otro caso es que el nodo ya esté lleno, asi que hacemos lo mismo
-                if (i < indice) {
-                    auxiliar->listaIzq->arr[i] = copia[i];
-
-                }
-                else if (i == indice) {
-                    auxiliar->listaIzq->arr[i] = valor;
-                }
-                else {
-                    auxiliar->listaIzq->arr[i] = copia[i - 1];
-                }
-            }
-             ListNode* nuevo = new ListNode(arrCapacity);            //pero esta vez le estamos creando un nuevo nodo
-            nuevo->arr[0] = copia[arrCapacity - 1];  //al nuevo nodo le damos el último valor de la copia
-            nuevo->next = auxiliar->listaIzq->next; //conecto nuevo con el next anterior  auxiliar->listIzq->next
-            auxiliar->listaIzq->next = nuevo; //se conecta nuestor head con nuevo y nuevo con el next de antes    
-            listSize++;
-            destruirArbol(calcularNiveles(listSize), raiz);
-            crearArbol(calcularNiveles(listSize));
-            unirArbol(calcularNiveles(listSize), raiz, head);
-            actualizarArbol(calcularNiveles(listSize), raiz);
-         
-    }
-    else {
-        int copia[arrCapacity] = auxiliar->listaDer->arr;//copia de nuestro arreglo            acá es lo mismo, pero con el listder
-
-        if (indice != auxiliar->listaDer->getSize()) {
-            for (int i = 0; i <= auxiliar->listaDer->getSize(); i++) {
-                if (i < indice) {
-                    auxiliar->listaDer->arr[i] = copia[i];
-
-                }
-                else if (i == indice) {
-                    auxiliar->listaDer->arr[i] = valor;
-                }
-                else {
-                    auxiliar->listaDer->arr[i] = copia[i - 1];
-                }
-            }
-
-        }                                                    
-        else {
-            for (int i = 0; i <= auxiliar->listaDer->getSize(); i++) {
-                if (i < indice) {
-                    auxiliar->listaDer->arr[i] = copia[i];
-
-                }
-                else if (i == indice) {
-                    auxiliar->listaDer->arr[i] = valor;
-                }
-                else {
-                    auxiliar->listaDer->arr[i] = copia[i - 1];
-                }
-            }
+        } //en este punto ya llegamos al sumnode deseado
+        if(indice > auxiliar->listaIzq->getSize()) {
+            listaux = auxiliar->listaDer;
+        } else {
+            listaux = auxiliar->listaIzq;
+        } //en este punto llegamos al listnode deseado
+        if(indice == listaux->getCapacity()) {
             ListNode* nuevo = new ListNode(arrCapacity);
-            nuevo->arr[0] = copia[arrCapacity - 1];  //al nuevo nodo le damos el último valor de la copia
-            nuevo->next = auxiliar->listaDer->next; //conecto nuevo con el next anterior  auxiliar->listIzq->next
-            auxiliar->listaDer->next = nuevo; //se conecta nuestor head con nuevo y nuevo con el next de antes    
+            nuevo->arr[0] = valor;
+            nuevo->size += 1;
+            nuevo->next = listaux->next;
+            listaux->next = nuevo;
             listSize++;
-            destruirArbol(calcularNiveles(listSize), raiz);
-            crearArbol(calcularNiveles(listSize));
+            destruirArbol(calcularNiveles(listSize - 1), raiz);
+            raiz = crearArbol(calcularNiveles(listSize));
             unirArbol(calcularNiveles(listSize), raiz, head);
             actualizarArbol(calcularNiveles(listSize), raiz);
+        } else {
+            if(listaux->getSize() == listaux->getCapacity()) {
+                ListNode* nuevo = new ListNode(arrCapacity);
+                nuevo->arr[0] = listaux->arr[listaux->getSize() - 1];
+                nuevo->size += 1;
+                nuevo->next = listaux->next;
+                listaux->next = nuevo;
+                listSize++;
+                int* arraux = new int[arrCapacity];
+                for(int i = 0; i < listaux->getSize(); i++) {
+                    if(i < indice) {
+                        arraux[i] = listaux->arr[i];
+                    } else if(i == indice) {
+                        arraux[i] == valor;
+                    } else {
+                        arraux[i] = listaux->arr[i - 1];
+                    }
+                }
+                delete[] listaux->arr;
+                listaux->arr = arraux;
+                destruirArbol(calcularNiveles(listSize - 1), raiz);
+                raiz = crearArbol(calcularNiveles(listSize));
+                unirArbol(calcularNiveles(listSize), raiz, head);
+                actualizarArbol(calcularNiveles(listSize), raiz);
+            } else {
+                int* arraux = new int[arrCapacity];
+                for(int i = 0; i < listaux->getSize(); i++) {
+                    if(i < indice) {
+                        arraux[i] = listaux->arr[i];
+                    } else if(i == indice) {
+                        arraux[i] == valor;
+                    } else {
+                        arraux[i] = listaux->arr[i - 1];
+                    }
+                }
+                delete[] listaux->arr;
+                listaux->arr = arraux;
+                listaux->size += 1;
+                actualizarArbol(calcularNiveles(listSize), raiz);
+            }
         }
-
-    }*/
+    }
 }
 void ListArr::insert_left(int valor) {
     if (head->getSize() < head->getCapacity()) {   //si hay espacio, entonces
