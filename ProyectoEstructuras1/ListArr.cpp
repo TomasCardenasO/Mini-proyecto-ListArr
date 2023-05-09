@@ -87,7 +87,7 @@ void ListArr::unirArbol(int niveles, SumNode* raiz, ListNode* head) {
 }
 /*Para actualizar el arbol usamos la misma idea que en los metodos anteriores, primero actualizamos el
 subarbol izquierdo y derecho y luego el padre, cuando lleguemos al nivel mas bajo simplente actualizamos
-los SumNode (el metodo actualizar de los SumNode funciona sin importar a que tipo de nodo estemos apuntando)*/
+los SumNode (el metodo actualizar de los SumNode funciona sin importar a que tipo de nodo estemos apuntando)www*/
 void ListArr::actualizarArbol(int niveles, SumNode* raiz) {
     if(niveles == 1) {
         raiz->actualizar();
@@ -105,13 +105,133 @@ int ListArr::size() {
 }
 
 void ListArr::insert(int valor, int indice) {
-
+    //tenemos que tomar en cuenta el indice. Pues necesitamos buscar el listnode adecuado.
+    SumNode* auxiliar = raiz;
+    ListNode* listaux;
+    if(indice > raiz->getSize()) {
+        cout << "El indice requerido no es valido, pruebe con un indice menor." << endl;
+    } else {
+        for (int i = 0; i < calcularNiveles(listSize) - 1; i++) {
+            if(indice > auxiliar->izq->getSize()) {
+                indice = indice - auxiliar->izq->getSize();
+                auxiliar = auxiliar->der;
+            } else {
+                auxiliar = auxiliar->izq;
+            }
+        } //en este punto ya llegamos al sumnode deseado
+        if(indice > auxiliar->listaIzq->getSize()) {
+            listaux = auxiliar->listaDer;
+        } else {
+            listaux = auxiliar->listaIzq;
+        } //en este punto llegamos al listnode deseado
+        if(indice == listaux->getCapacity()) {
+            ListNode* nuevo = new ListNode(arrCapacity);
+            nuevo->arr[0] = valor;
+            nuevo->size += 1;
+            nuevo->next = listaux->next;
+            listaux->next = nuevo;
+            listSize++;
+            destruirArbol(calcularNiveles(listSize - 1), raiz);
+            raiz = crearArbol(calcularNiveles(listSize));
+            unirArbol(calcularNiveles(listSize), raiz, head);
+            actualizarArbol(calcularNiveles(listSize), raiz);
+        } else {
+            if(listaux->getSize() == listaux->getCapacity()) {
+                ListNode* nuevo = new ListNode(arrCapacity);
+                nuevo->arr[0] = listaux->arr[listaux->getSize() - 1];
+                nuevo->size += 1;
+                nuevo->next = listaux->next;
+                listaux->next = nuevo;
+                listSize++;
+                int* arraux = new int[arrCapacity];
+                for(int i = 0; i < listaux->getSize(); i++) {
+                    if(i < indice) {
+                        arraux[i] = listaux->arr[i];
+                    } else if(i == indice) {
+                        arraux[i] == valor;
+                    } else {
+                        arraux[i] = listaux->arr[i - 1];
+                    }
+                }
+                delete[] listaux->arr;
+                listaux->arr = arraux;
+                destruirArbol(calcularNiveles(listSize - 1), raiz);
+                raiz = crearArbol(calcularNiveles(listSize));
+                unirArbol(calcularNiveles(listSize), raiz, head);
+                actualizarArbol(calcularNiveles(listSize), raiz);
+            } else {
+                int* arraux = new int[arrCapacity];
+                for(int i = 0; i < listaux->getSize(); i++) {
+                    if(i < indice) {
+                        arraux[i] = listaux->arr[i];
+                    } else if(i == indice) {
+                        arraux[i] == valor;
+                    } else {
+                        arraux[i] = listaux->arr[i - 1];
+                    }
+                }
+                delete[] listaux->arr;
+                listaux->arr = arraux;
+                listaux->size += 1;
+                actualizarArbol(calcularNiveles(listSize), raiz);
+            }
+        }
+    }
 }
 void ListArr::insert_left(int valor) {
-
+    if (head->getSize() < head->getCapacity()) {   //si hay espacio, entonces
+        for (int i = head->getSize(); i > 0; i--) {
+            head->arr[i] = head->arr[i - 1];
+        }
+        head->arr[0] = valor;
+        head->size += 1;
+        actualizarArbol(calcularNiveles(listSize), raiz);
+    } else {
+        ListNode* nuevo = new ListNode(arrCapacity);
+        nuevo->arr[0] = valor;
+        nuevo->size += 1;
+        nuevo->next = head;
+        head = nuevo;
+        listSize++;
+        destruirArbol(calcularNiveles(listSize - 1), raiz);
+        raiz = crearArbol(calcularNiveles(listSize));
+        unirArbol(calcularNiveles(listSize), raiz, head);
+        actualizarArbol(calcularNiveles(listSize), raiz);
+    }
 }
 void ListArr::insert_right(int valor) {
+    SumNode* aux = raiz;
+    ListNode* listaux;
+    for(int i = 0; i < calcularNiveles(listSize)- 1; i++) {
+        if(aux->der->getSize() != 0) {
+            aux = aux->der;
+        } else {
+            aux = aux->izq;
+        }
+    } //en este punto nos posicionamos en el SumNode que tiene el ultimo indice
+    if(aux->listaDer == nullptr or aux->listaDer->getSize() == 0) {
+        listaux = aux->listaIzq;
+    } else {
+        listaux = aux->listaDer;
+    } //en este punto nos posicionamos en el listNode que contiene el ultimo indice
 
+    if (listaux->getSize() == listaux->getCapacity()) { //si la capacidad está llena
+        //creamos nuevo nodo
+        ListNode* nuevo = new ListNode(arrCapacity);
+        nuevo->arr[0] = valor; //al nuevo nodo le asignamos el valor dado
+        nuevo->size += 1;
+        nuevo->next = listaux->next;
+        listaux->next = nuevo; //al nodo auxiliar, el cual es el ultimo, le asignamos como next al nuevo nodo
+        listSize++;
+        destruirArbol(calcularNiveles(listSize - 1), raiz);
+        raiz = crearArbol(calcularNiveles(listSize));
+        unirArbol(calcularNiveles(listSize), raiz, head);
+        actualizarArbol(calcularNiveles(listSize), raiz);
+    } else {
+        listaux->arr[listaux->getSize()] = valor; //si la capacidad no está llena
+        listaux->size += 1;
+        actualizarArbol(calcularNiveles(listSize), raiz);
+    }
 }
 void ListArr::print() {
     ListNode* nodo = head; 
