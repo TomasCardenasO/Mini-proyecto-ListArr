@@ -104,6 +104,7 @@ int ListArr::size() {
 
 }
 void ListArr::insert(int valor, int indice) {
+    /*
     //tenemos que tomar en cuenta el indice. Pues necesitamos buscar el listnode adecuado.
     SumNode* auxiliar = raiz;                    //recordar
     for (int i = 0; i < calcularNiveles(listSize)) {
@@ -128,7 +129,7 @@ void ListArr::insert(int valor, int indice) {
     }
     //en este punto ya llegamos al sumnode deseado
     if (indice > auxiliar->listaIzq->getSize()) {           //pueden mejorar las condiciones, pero el tema es que esta condición es para verificar si trabajamos con listader o listaizq
-        int copia[arrCapacity] = auxiliar->listaIzq->arr//copia de nuestro arreglo  
+        int copia[arrCapacity] = auxiliar->listaIzq->arr;//copia de nuestro arreglo  
         if (indice != auxiliar->listaIzq->getSize()) {          //y conociendo eso, tenemos 2 posibles casos, que el arreglo esté lleno o no
             for (int i = 0; i <= auxiliar->listaIzq->getSize(); i++) { //en este caso no está lleno, asi que es suficiente con copiar los datos
                 if (i < indice) {
@@ -169,7 +170,7 @@ void ListArr::insert(int valor, int indice) {
          
     }
     else {
-        int copia[arrCapacity] = auxiliar->listaDer->arr//copia de nuestro arreglo            acá es lo mismo, pero con el listder
+        int copia[arrCapacity] = auxiliar->listaDer->arr;//copia de nuestro arreglo            acá es lo mismo, pero con el listder
 
         if (indice != auxiliar->listaDer->getSize()) {
             for (int i = 0; i <= auxiliar->listaDer->getSize(); i++) {
@@ -210,9 +211,10 @@ void ListArr::insert(int valor, int indice) {
             actualizarArbol(calcularNiveles(listSize), raiz);
         }
 
-    }
+    }*/
 }
 void ListArr::insert_left(int valor) {
+    /*
     int copia[arrCapacity] = head->arr //copia de nuestro arreglo 
 
 
@@ -248,31 +250,42 @@ void ListArr::insert_left(int valor) {
         }
 
 
-
+*/
 
 }
 void ListArr::insert_right(int valor) {
-    ListNode* aux = head; //creamos un arreglo que nos permita llegar hasta el último listndode
-    for (int i = 0; i < listSize; i++) {
-        aux = aux->next; //no es necesario el if, pues solo recorre hasta listsize
+    SumNode* aux = raiz;
+    ListNode* listaux;
+    for(int i = 0; i < calcularNiveles(listSize)- 1; i++) {
+        if(aux->der->getSize() != 0) {
+            aux = aux->der;
+        } else {
+            aux = aux->izq;
+        }
+    } //en este punto nos posicionamos en el SumNode que tiene el ultimo indice
+    if(aux->listaDer == nullptr or aux->listaDer->getSize() == 0) {
+        listaux = aux->listaIzq;
+    } else {
+        listaux = aux->listaDer;
+    } //en este punto nos posicionamos en el listNode que contiene el ultimo indice
 
-    }
-    if (aux->getSize() == aux->getCapacity()) { //si la capacidad está llena
+    if (listaux->getSize() == listaux->getCapacity()) { //si la capacidad está llena
         //creamos nuevo nodo
         ListNode* nuevo = new ListNode(arrCapacity);
         nuevo->arr[0] = valor; //al nuevo nodo le asignamos el valor dado
-        aux->next = nuevo; //al nodo auxiliar, el cual es el ultimo, le asignamos como next al nuevo nodo
+        nuevo->size += 1;
+        nuevo->next = listaux->next;
+        listaux->next = nuevo; //al nodo auxiliar, el cual es el ultimo, le asignamos como next al nuevo nodo
         listSize++;
-        destruirArbol(calcularNiveles(listSize), raiz);
-        crearArbol(calcularNiveles(listSize));
+        destruirArbol(calcularNiveles(listSize - 1), raiz);
+        raiz = crearArbol(calcularNiveles(listSize));
         unirArbol(calcularNiveles(listSize), raiz, head);
         actualizarArbol(calcularNiveles(listSize), raiz);
-
+    } else {
+        listaux->arr[listaux->getSize()] = valor; //si la capacidad no está llena
+        listaux->size += 1;
+        actualizarArbol(calcularNiveles(listSize), raiz);
     }
-    else() {
-        aux->arr[aux->getSize()] = valor //si la capacidad no está llena
-    }
-
 }
 void ListArr::print() {
 
